@@ -13,7 +13,7 @@ public class TipoDeBem {
     @Column(name = "ID_TIPO_DO_BEM")
     private Long id;
 
-    @Column(name = "NM_TIPO_DO_BEM", nullable = false, unique = true)
+    @Column(name = "NM_TIPO_DO_BEM", nullable = false)
     private String nome;
 
     public TipoDeBem() {

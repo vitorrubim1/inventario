@@ -21,30 +21,27 @@ public class Main {
         addTipoDeBem(manager);
         addRelatorio(manager);
         addBem(manager);
-        listaInvetarioPeloId(manager);
-        listaTodosOsBens(manager);
+        Inventario inventario = listaInvetarioPeloId(manager);
+        List<Bem> bens = listaTodosOsBens(manager);
+
+        for (Bem b : bens) {
+            inventario.addBem(b);
+        }
 
         manager.close();
         factory.close();
     }
 
-    private static void listaTodosOsBens(EntityManager manager) {
-        List<Bem> bens = manager.createQuery("FROM Bem").getResultList();
-        JOptionPane.showInputDialog(
-                null,
-                "Listagem de todos os bens",
-                "Bens",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                bens.toArray(),
-                bens.get(0)
-        );
+    private static List<Bem> listaTodosOsBens(EntityManager manager) {
+        String jpql = "FROM Bem";
+        return manager.createQuery(jpql).getResultList();
     }
 
-    private static void listaInvetarioPeloId(EntityManager manager) {
+    private static Inventario listaInvetarioPeloId(EntityManager manager) {
         String id_invetario = JOptionPane.showInputDialog("Informe o id do inventário que deseja visualizar:");
         Inventario inventario = manager.find(Inventario.class, id_invetario);
         JOptionPane.showMessageDialog(null,  inventario.toString());
+        return inventario;
     }
 
     private static void addBem(EntityManager manager) {

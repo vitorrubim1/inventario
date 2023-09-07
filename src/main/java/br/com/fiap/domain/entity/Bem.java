@@ -27,7 +27,7 @@ public class Bem {
     )
     private TipoDeBem tipo;
 
-    @Column(name = "ETIQUETA_BEM", nullable = false, unique = true)
+    @Column(name = "ETIQUETA_BEM", nullable = false)
     private String etiqueta;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})

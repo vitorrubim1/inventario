@@ -13,7 +13,7 @@ public class Departamento {
     @Column(name = "ID_DEPARTAMENTO")
     private Long id;
 
-    @Column(name = "NM_DEPARTAMENTO", nullable = false, unique = true)
+    @Column(name = "NM_DEPARTAMENTO", nullable = false)
     private String nome;
 
     public Departamento() {

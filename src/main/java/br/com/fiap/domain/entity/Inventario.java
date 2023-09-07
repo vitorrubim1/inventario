@@ -3,6 +3,9 @@ package br.com.fiap.domain.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_INVETARIO")
@@ -12,6 +15,42 @@ public class Inventario  {
     @SequenceGenerator(name = "SQ_ID_INVENTARIO", sequenceName = "SQ_ID_INVENTARIO")
     @Column(name = "ID_INVENTARIO")
     private Long id;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "TB_BENS_INVENTARIADOS",
+            joinColumns = {
+                    // Dados da classe que estamos (Inventario)
+                    @JoinColumn(
+                            name = "ID_INVENTARIO",
+                            referencedColumnName = "ID_INVENTARIO",
+                            foreignKey = @ForeignKey(name = "FK_INVENTARIO_BEM")
+                    )
+            },
+
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "ID_BEM",
+                            referencedColumnName = "ID_BEM",
+                            foreignKey = @ForeignKey(name = "FK_BEM_INVENTARIO")
+                    )
+            }
+    )
+    private Set<Bem> bens = new LinkedHashSet<>();
+
+    public Set<Bem> getBens() {
+        return Collections.unmodifiableSet(bens); // Não permitir acesso e modificação diretamente
+    }
+
+    public Inventario addBem(Bem bem) {
+        bens.add(bem);
+        return this;
+    }
+
+    public Inventario removeBem(Bem bem) {
+        bens.remove(bem);
+        return this;
+    }
 
     @Column(name = "DT_INICIO", nullable = false)
     private LocalDate inicio;
